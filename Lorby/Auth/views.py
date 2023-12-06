@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import User
 from .serializers import RegisterSerializer
 from .renderers import UserJSONRenderer
+from .utils import send_confirmation_email
 
 
 class RegisterView(generics.GenericAPIView):
@@ -19,4 +20,8 @@ class RegisterView(generics.GenericAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    send_email = send_confirmation_email()
+
+
 
