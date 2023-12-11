@@ -49,7 +49,7 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=100)
-    password = serializers.CharField(min_length=8, max_length=15, write_only=True)
+    password = serializers.CharField(max_length=15, write_only=True)
     tokens = serializers.SerializerMethodField()
 
     def get_tokens(self, obj):
