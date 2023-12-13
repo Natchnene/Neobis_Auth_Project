@@ -28,7 +28,7 @@ class RegisterView(generics.GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    send_email = send_confirmation_email
+    send_confirmation_email = send_confirmation_email
 
 
 class VerifyEmail(views.APIView):
