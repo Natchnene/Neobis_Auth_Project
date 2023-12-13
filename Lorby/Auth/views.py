@@ -20,12 +20,14 @@ class RegisterView(generics.GenericAPIView):
     permission_classes = [permissions.AllowAny]
     renderer_classes = (UserJSONRenderer,)
 
+    send_confirmation_email = send_confirmation_email
+
     def post(self, request):
         user = request.data
         serializer = self.serializer_class(data=user)
         if serializer.is_valid(raise_exception=True):
             user = serializer.save()
-            send_confirmation_email(user)
+            self.send_confirmation_email(user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
