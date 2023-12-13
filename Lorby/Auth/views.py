@@ -24,11 +24,10 @@ class RegisterView(generics.GenericAPIView):
         user = request.data
         serializer = self.serializer_class(data=user)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            user = serializer.save()
+            send_confirmation_email(user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    send_confirmation_email = send_confirmation_email
 
 
 class VerifyEmail(views.APIView):
