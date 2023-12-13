@@ -6,6 +6,7 @@ from .renderers import UserJSONRenderer
 from .utils import send_confirmation_email
 import jwt
 from django.conf import settings
+from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import (
     RegisterSerializer,
     EmailVerificationSerializer,
@@ -33,15 +34,13 @@ class RegisterView(generics.GenericAPIView):
 
 
 class VerifyEmail(views.APIView):
-    serializer_class = EmailVerificationSerializer
+    # serializer_class = EmailVerificationSerializer
 
-    def get(self, request):
-        token = request.GET.get('token')
+    def get(self, request, token):
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
-            user_id = payload['user_id']
-            email = payload['email']
-            user = User.objects.get(id=user_id, email=email)
+            decoded_token = RefreshToken(token)
+            user_id = decoded_token['user_id']
+            user = User.objects.get(id=user_id)
             if not user.is_active:
                 user.is_active = True
                 user.save()

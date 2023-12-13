@@ -14,7 +14,7 @@ from .views import (
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
-    path('confirm-email/', VerifyEmail.as_view(), name='confirm-email'),
+    path('confirm-email/<str:token>/', VerifyEmail.as_view(), name='confirm-email'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

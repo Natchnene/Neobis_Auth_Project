@@ -13,7 +13,7 @@ def send_confirmation_email(self, user):
     current_site = get_current_site(self.request).domain
     absurl = f'{protocol}://{current_site}/auth/confirm-email/{token}/'
     subject = f'Подтвердите Ваш e-mail'
-    email_body = f'Пожалуйста, перейдите по ссылке, для подтверждения Вашей почты: {absurl}. ' \
+    email_body = f'Пожалуйста, перейдите по ссылке, для подтверждения Вашей почты: {absurl} ' \
                  f'Ссылка работает всего 5 минут, если не успели попросите нас выслать вам еще одно письмо. ' \
                  f'Спасибо, что присоединились!'
     send_mail(subject, email_body, settings.EMAIL_FROM, [user.email])
