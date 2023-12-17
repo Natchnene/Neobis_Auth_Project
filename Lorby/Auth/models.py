@@ -1,30 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser)
+from django.contrib.auth.models import (AbstractBaseUser, UserManager, PermissionsMixin)
 
 from rest_framework_simplejwt.tokens import RefreshToken
-
-
-class UserManager(BaseUserManager):
-
-    def create_user(self, username, email, password, **extra_fields):
-        if not username:
-            raise TypeError('Users should have an username')
-        if not email:
-            raise TypeError('Users should have an email')
-        if not password:
-            raise TypeError('Users should have a password')
-        email = self.normalize_email(email)
-        extra_fields.setdefault("is_staff", False)
-        extra_fields.setdefault("is_superuser", False)
-        user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
-    def create_superuser(self, username, email, password, **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-        return self.create_user(username, email, password, **extra_fields)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
